@@ -97,7 +97,7 @@ ENV HTTPS_PROXY=""
 EXPOSE 2048
 EXPOSE 3120
 
-USER appuser
+# Railway mounts volumes as root; start as root and fix perms in entrypoint.
 ENV HOME=/app
 ENV PLAYWRIGHT_BROWSERS_PATH=/home/appuser/.cache/ms-playwright
 
@@ -113,4 +113,7 @@ ENV AUTO_CONFIRM_LOGIN=true
 ENV SERVER_PORT=2048
 ENV INTERNAL_CAMOUFOX_PROXY=""
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/app.conf"]
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
