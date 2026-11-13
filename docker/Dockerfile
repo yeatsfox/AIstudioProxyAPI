@@ -116,4 +116,5 @@ ENV INTERNAL_CAMOUFOX_PROXY=""
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["/bin/bash", "-lc", "mkdir -p /app/auth_profiles/active /app/auth_profiles/saved /app/auth_profiles/backup /app/logs /app/certs && chmod -R 777 /app/auth_profiles /app/logs /app/certs 2>/dev/null; exec /usr/bin/supervisord -c /etc/supervisor/conf.d/app.conf"]
+ENTRYPOINT []
